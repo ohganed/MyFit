@@ -1,8 +1,9 @@
-const CACHE_NAME = "myfit-cache-v2";
+const CACHE_NAME = "myfit-cache-v3";
 const ASSETS = [
   "./",
   "index.html",
   "styles.css",
+  "storage-layer.js",
   "app.js",
   "manifest.webmanifest",
   "deployment.config.json",

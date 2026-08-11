@@ -1,0 +1,32 @@
+{
+  "schemaVersion": "0.1",
+  "appId": "myfit",
+  "name": "MyFit Personal Training Log",
+  "shortName": "MyFit",
+  "version": "0.1.0",
+  "startUrl": "./",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "any",
+  "themeColor": "#111827",
+  "backgroundColor": "#f4f6f8",
+  "serviceWorker": {
+    "enabled": true,
+    "path": "./sw.js",
+    "cacheVersion": "v2",
+    "offlinePolicy": "cache-first-static"
+  },
+  "storage": {
+    "policy": "local-only",
+    "technology": "localStorage"
+  },
+  "deployment": {
+    "target": "github-pages",
+    "basePathPolicy": "relative"
+  },
+  "icons": [
+    "./icons/icon-180.png",
+    "./icons/icon-192.png",
+    "./icons/icon-512.png"
+  ]
+}

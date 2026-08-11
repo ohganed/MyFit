@@ -1,4 +1,4 @@
-const CACHE_NAME = "myfit-cache-v4";
+const CACHE_NAME = "myfit-cache-v5";
 const ASSETS = [
   "./",
   "index.html",
@@ -7,6 +7,7 @@ const ASSETS = [
   "storage-diagnostics.js",
   "storage-diagnostics-ui.js",
   "app.js",
+  "timer-overlay.js",
   "manifest.webmanifest",
   "deployment.config.json",
   "icons/icon-180.png",

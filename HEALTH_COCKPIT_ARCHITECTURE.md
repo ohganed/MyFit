@@ -50,7 +50,23 @@ It is not designed to diagnose disease or prescribe treatment.
 - Meal time
 - Meal description
 - Optional meal size / notes
-- Future structured nutrition fields may be added without requiring them now
+- Optional structured Nutrition data
+
+Nutrition is deliberately optional so meal logging stays lightweight. Supported nutrition fields may include:
+- Energy (kcal)
+- Protein
+- Fat
+- Carbohydrate
+- Fiber
+- Sugar
+- Sodium
+- Potassium
+- Calcium
+- Iron
+- Magnesium
+- Vitamin D
+
+Every nutrition record preserves provenance when known: `manual`, `database`, `barcode`, `photo-estimate`, `import`, or `healthkit`. Estimated nutrition should remain distinguishable from measured or database-backed values.
 
 ### Recovery
 - Energy level
@@ -93,7 +109,19 @@ Use for activities and events that happen at a time or across a time interval.
   "endAt": null,
   "source": "manual",
   "payload": {
-    "description": "rice, grilled fish, vegetables"
+    "description": "rice, grilled fish, vegetables",
+    "nutrition": {
+      "source": "database",
+      "confidence": null,
+      "servingDescription": "1 meal",
+      "foodItems": [],
+      "nutrients": {
+        "energyKcal": { "value": 620, "unit": "kcal" },
+        "proteinG": { "value": 32, "unit": "g" },
+        "fiberG": { "value": 8, "unit": "g" },
+        "sodiumMg": { "value": 1450, "unit": "mg" }
+      }
+    }
   },
   "metadata": {}
 }
@@ -135,7 +163,7 @@ Every record should identify its source when known, for example:
 - `healthkit`
 - `device`
 
-This allows the Cockpit to combine data without losing provenance.
+Nutrition has its own provenance because the meal itself can be manually logged while its nutrition may come from another source such as a database, barcode, or photo estimate.
 
 ## HealthKit migration rule
 
@@ -163,6 +191,9 @@ Examples:
 - Movement on short-sleep days
 - Steps on training vs non-training days
 - Recovery patterns
+- Protein intake vs Strength sessions
+- Sodium intake vs Blood Pressure trends
+- Meal timing vs Sleep trends
 
 Recommendations should use cautious language and should not make medical diagnoses.
 
@@ -174,12 +205,14 @@ Recommendations should use cautious language and should not make medical diagnos
 - Timeline event abstraction
 - Manual entry first
 - Unified timestamps and source metadata
+- Optional nutrition schema attached to Meal events
 
 ### Phase 2 — Cockpit UI
 - Today dashboard
 - Body Check
 - Sleep entry
 - Meal entry
+- Optional Nutrition Detail
 - Recovery check
 - Daily timeline
 

@@ -1,0 +1,101 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>MyFit Today Prototype v0.1</title>
+<style>
+:root{--bg:#f4f6f8;--card:#fff;--text:#111827;--muted:#6b7280;--line:#e5e7eb;--ink:#111827;--soft:#eef2f7;--accent:#1f2937;--event:#7c3aed;--sleep:#dbeafe;--meal:#fef3c7;--move:#dcfce7;--body:#fee2e2;--energy:#ede9fe}
+*{box-sizing:border-box}html,body{margin:0;background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,"Hiragino Sans","Yu Gothic",sans-serif}button,input{font:inherit}
+body{min-height:100dvh}.app{max-width:480px;margin:0 auto;padding:calc(14px + env(safe-area-inset-top)) 14px calc(90px + env(safe-area-inset-bottom))}
+.header{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:14px}.brand small{display:block;color:var(--muted);font-weight:700;letter-spacing:.08em}.brand h1{font-size:28px;line-height:1;margin:4px 0}.tagline{color:var(--muted);font-size:13px}.ghost{border:0;background:#fff;border-radius:999px;padding:9px 12px;font-weight:800;box-shadow:0 2px 12px rgba(17,24,39,.06)}
+.card{background:var(--card);border-radius:20px;padding:16px;margin-bottom:12px;box-shadow:0 2px 14px rgba(17,24,39,.05)}
+.section-head{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:12px}.section-head h2,.section-head h3{margin:0}.section-head h2{font-size:22px}.section-head h3{font-size:16px}.muted{color:var(--muted)}
+.summary-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}.metric{border:1px solid var(--line);border-radius:16px;padding:12px;min-height:82px;position:relative;overflow:hidden}.metric small{color:var(--muted);font-weight:700}.metric strong{display:block;font-size:22px;margin-top:4px}.metric .band{height:6px;background:#edf0f4;border-radius:99px;margin-top:10px;position:relative}.metric .band::after{content:"";position:absolute;left:30%;right:18%;top:0;bottom:0;border-radius:99px;background:#cbd5e1}.metric .dot{position:absolute;width:10px;height:10px;border-radius:50%;background:#111827;bottom:10px;left:66%}
+.notice-card{display:none;border:1px solid #ddd6fe;background:#faf5ff}.notice-card.show{display:block;animation:fadein .25s ease}.notice-title{font-weight:900;margin-bottom:6px}.notice-text{font-size:14px;line-height:1.45}.notice-detail{margin-top:10px;border:0;background:#ede9fe;border-radius:12px;padding:9px 12px;font-weight:800}
+.timeline{position:relative;padding-left:34px}.timeline::before{content:"";position:absolute;left:13px;top:5px;bottom:5px;width:2px;background:#dbe0e6}.event{position:relative;display:grid;grid-template-columns:56px 1fr;gap:8px;align-items:start;margin:0 0 12px}.event::before{content:"";position:absolute;left:-27px;top:8px;width:12px;height:12px;border-radius:50%;background:#94a3b8;border:3px solid var(--card)}.event.meal::before{background:#d97706}.event.move::before{background:#16a34a}.event.sleep::before{background:#2563eb}.event.body::before{background:#dc2626}.event.energy::before{background:#7c3aed}.event.deviation::before{width:15px;height:15px;left:-29px;top:6px;border-radius:4px;transform:rotate(45deg);background:var(--event);box-shadow:0 0 0 4px #ede9fe}.time{font-size:12px;color:var(--muted);padding-top:3px}.event-card{border:1px solid var(--line);border-radius:15px;padding:10px 12px;background:#fff}.event-card strong{font-size:14px}.event-meta{font-size:12px;color:var(--muted);margin-top:3px}.event-card button{margin-top:8px;border:0;background:var(--soft);border-radius:10px;padding:7px 9px;font-size:12px;font-weight:800}
+.flow{display:grid;gap:11px}.flow-row{display:grid;grid-template-columns:64px 1fr;gap:8px;align-items:center}.flow-label{font-size:12px;font-weight:800;color:#475569}.flow-track{height:22px;background:#eef1f5;border-radius:999px;position:relative;overflow:hidden}.flow-usual{position:absolute;left:18%;right:20%;top:5px;height:12px;background:#d7dde5;border-radius:999px}.flow-line{position:absolute;left:8%;top:10px;width:76%;height:2px;background:#111827;transform-origin:left center}.flow-line.late{transform:rotate(4deg)}.flow-line.steady{transform:rotate(0)}.flow-line.up{transform:rotate(-4deg)}.flow-mark{position:absolute;right:9%;top:6px;width:10px;height:10px;background:#7c3aed;transform:rotate(45deg);border-radius:2px}
+.fab{position:fixed;right:max(18px,calc((100vw - 480px)/2 + 18px));bottom:calc(22px + env(safe-area-inset-bottom));width:58px;height:58px;border-radius:50%;border:0;background:#111827;color:#fff;font-size:28px;box-shadow:0 10px 28px rgba(17,24,39,.25);z-index:40}.sheet-wrap{position:fixed;inset:0;background:rgba(15,23,42,.28);display:none;align-items:flex-end;z-index:100}.sheet-wrap.show{display:flex}.sheet{width:100%;max-width:480px;margin:0 auto;background:#fff;border-radius:24px 24px 0 0;padding:10px 16px calc(18px + env(safe-area-inset-bottom));animation:sheetup .22s ease}.handle{width:42px;height:5px;border-radius:99px;background:#d1d5db;margin:2px auto 14px}.sheet h3{margin:0 0 12px}.quick-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:9px}.quick{border:0;background:#f3f4f6;border-radius:15px;padding:14px 6px;font-weight:800;min-height:70px}.quick span{display:block;font-size:22px;margin-bottom:4px}.sheet-note{font-size:12px;color:var(--muted);margin-top:12px}.detail{display:none;margin-top:10px;padding:10px;border-radius:12px;background:#fafafa;border:1px dashed #d1d5db;font-size:13px;line-height:1.45}.detail.show{display:block}
+.flash{position:fixed;inset:0;pointer-events:none;z-index:200;display:none;align-items:center;justify-content:center;background:radial-gradient(circle at center,#ede9fe 0,#ddd6fe 36%,rgba(124,58,237,.92) 100%);color:#fff;text-align:center;padding:24px}.flash.show{display:flex;animation:flashout 2.7s forwards}.flash-inner{animation:pulse .55s ease}.flash small{display:block;letter-spacing:.18em;font-weight:900;opacity:.9}.flash strong{display:block;font-size:46px;line-height:1;margin:8px 0}.flash p{margin:0;font-size:15px}
+@keyframes sheetup{from{transform:translateY(30%);opacity:0}to{transform:none;opacity:1}}@keyframes fadein{from{opacity:0;transform:translateY(-4px)}to{opacity:1;transform:none}}@keyframes pulse{0%{transform:scale(.85);opacity:0}55%{transform:scale(1.07);opacity:1}100%{transform:scale(1)}}@keyframes flashout{0%,68%{opacity:1}100%{opacity:0;visibility:hidden}}
+@media(max-width:360px){.summary-grid{grid-template-columns:1fr}.event{grid-template-columns:48px 1fr}.quick-grid{grid-template-columns:repeat(2,1fr)}}
+</style>
+</head>
+<body>
+<div class="app">
+  <header class="header">
+    <div class="brand"><small>MYFIT</small><h1>Today</h1><div class="tagline">Life that fits me.</div></div>
+    <button class="ghost" id="demoBtn">Demo ◆</button>
+  </header>
+
+  <section class="card">
+    <div class="section-head"><h2>Today</h2><span class="muted" id="dateLabel"></span></div>
+    <div class="summary-grid">
+      <div class="metric"><small>Sleep</small><strong>6h 34m</strong><div class="band"></div><span class="dot" style="left:58%"></span></div>
+      <div class="metric"><small>Energy</small><strong>3 / 5</strong><div class="band"></div><span class="dot" style="left:49%"></span></div>
+      <div class="metric"><small>Movement</small><strong>Normal</strong><div class="band"></div><span class="dot" style="left:57%"></span></div>
+      <div class="metric"><small>Meals</small><strong>3 logged</strong><div class="band"></div><span class="dot" style="left:62%"></span></div>
+    </div>
+  </section>
+
+  <section class="card notice-card show" id="noticeCard">
+    <div class="notice-title">◆ Something is a little different</div>
+    <div class="notice-text">Today's Squat was outside your recent usual range.</div>
+    <button class="notice-detail" id="noticeDetailBtn">See why</button>
+    <div class="detail" id="noticeDetail">Recent usual: about 5–7 reps. Today: 10 reps. MyFit is only showing the difference — not judging whether it was good or bad.</div>
+  </section>
+
+  <section class="card">
+    <div class="section-head"><h3>Timeline</h3><span class="muted">See first</span></div>
+    <div class="timeline">
+      <div class="event sleep"><div class="time">06:42</div><div class="event-card"><strong>Wake</strong><div class="event-meta">Sleep 6h 34m</div></div></div>
+      <div class="event meal"><div class="time">07:18</div><div class="event-card"><strong>Breakfast</strong><div class="event-meta">Usual pattern · rice / egg / miso soup</div></div></div>
+      <div class="event body"><div class="time">07:35</div><div class="event-card"><strong>Weight 82.1 kg</strong><div class="event-meta">Inside recent usual range</div></div></div>
+      <div class="event meal"><div class="time">12:31</div><div class="event-card"><strong>Lunch</strong><div class="event-meta">Recent meal pattern</div></div></div>
+      <div class="event move deviation"><div class="time">18:12</div><div class="event-card"><strong>Squat · 10 reps</strong><div class="event-meta">◆ Meaningfully different from recent usual</div><button data-detail="squatDetail">Why is this marked?</button><div class="detail" id="squatDetail">Your recent values cluster around 5–7 reps. A small change such as 5 → 6 would not be highlighted.</div></div></div>
+      <div class="event meal"><div class="time">19:26</div><div class="event-card"><strong>Dinner</strong><div class="event-meta">Within your usual time zone</div></div></div>
+      <div class="event energy"><div class="time">21:10</div><div class="event-card"><strong>Energy 3 / 5</strong><div class="event-meta">About usual</div></div></div>
+    </div>
+  </section>
+
+  <section class="card">
+    <div class="section-head"><h3>Flow</h3><span class="muted">Past 3 weeks</span></div>
+    <div class="flow">
+      <div class="flow-row"><div class="flow-label">Sleep</div><div class="flow-track"><span class="flow-usual"></span><span class="flow-line late"></span><span class="flow-mark"></span></div></div>
+      <div class="flow-row"><div class="flow-label">Meals</div><div class="flow-track"><span class="flow-usual" style="left:24%;right:14%"></span><span class="flow-line late" style="width:70%"></span></div></div>
+      <div class="flow-row"><div class="flow-label">Workout</div><div class="flow-track"><span class="flow-usual" style="left:12%;right:28%"></span><span class="flow-line steady" style="width:78%"></span></div></div>
+      <div class="flow-row"><div class="flow-label">Energy</div><div class="flow-track"><span class="flow-usual" style="left:20%;right:24%"></span><span class="flow-line up" style="width:72%"></span></div></div>
+    </div>
+    <div class="detail show" style="margin-top:12px">This prototype intentionally avoids saying what the shift means. The visual is meant to help you notice the flow first.</div>
+  </section>
+</div>
+
+<button class="fab" id="addBtn" aria-label="Quick Add">＋</button>
+<div class="sheet-wrap" id="sheetWrap">
+  <div class="sheet">
+    <div class="handle"></div>
+    <h3>Add to Today</h3>
+    <div class="quick-grid">
+      <button class="quick"><span>⚖️</span>Weight</button>
+      <button class="quick"><span>🩸</span>BP</button>
+      <button class="quick"><span>🍽️</span>Meal</button>
+      <button class="quick"><span>😴</span>Sleep</button>
+      <button class="quick"><span>⚡</span>Energy</button>
+      <button class="quick"><span>🏃</span>Movement</button>
+    </div>
+    <div class="sheet-note">Prototype: taps first. Text entry would appear only after choosing an item that actually needs it.</div>
+  </div>
+</div>
+
+<div class="flash" id="flash">
+  <div class="flash-inner"><small>DIFFERENT TODAY</small><strong>10 reps</strong><p>Recent usual: 5–7</p></div>
+</div>
+
+<script>
+const now=new Date();document.getElementById('dateLabel').textContent=new Intl.DateTimeFormat('en',{month:'short',day:'numeric',weekday:'short'}).format(now);
+const sheet=document.getElementById('sheetWrap');document.getElementById('addBtn').onclick=()=>sheet.classList.add('show');sheet.onclick=e=>{if(e.target===sheet)sheet.classList.remove('show')};document.querySelectorAll('.quick').forEach(b=>b.onclick=()=>{sheet.classList.remove('show');b.animate([{transform:'scale(.96)'},{transform:'scale(1)'}],{duration:180})});
+const flash=document.getElementById('flash');function playFlash(){flash.classList.remove('show');void flash.offsetWidth;flash.classList.add('show');setTimeout(()=>flash.classList.remove('show'),2800)}document.getElementById('demoBtn').onclick=playFlash;
+document.getElementById('noticeDetailBtn').onclick=()=>document.getElementById('noticeDetail').classList.toggle('show');document.querySelectorAll('[data-detail]').forEach(btn=>btn.onclick=()=>document.getElementById(btn.dataset.detail).classList.toggle('show'));
+</script>
+</body>
+</html>

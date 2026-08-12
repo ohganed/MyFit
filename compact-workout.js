@@ -30,9 +30,28 @@
       body.workout-active #workoutPanel>.card:nth-child(3),body.workout-active #workoutPanel>.timer-card,body.workout-active #finishWorkoutBtn{display:none}
       body.workout-active .bottom-nav{padding-top:4px;padding-bottom:calc(4px + env(safe-area-inset-bottom))}.workout-active .bottom-nav button{padding:3px 2px}.workout-active .bottom-nav button span{font-size:14px;margin-bottom:0}
       body.workout-active .timer-fab{bottom:calc(54px + env(safe-area-inset-bottom));right:10px;padding:9px 12px}
+      #compactFinishBtn{position:fixed;top:calc(7px + env(safe-area-inset-top));right:82px;z-index:30;padding:7px 11px;border-radius:999px;background:#fff1f2;color:#be123c;border:1px solid #fecdd3;font-size:11px;font-weight:900;box-shadow:0 2px 8px rgba(15,23,42,.08)}
+      #compactFinishBtn[hidden]{display:none!important}
     }
   `;document.head.appendChild(style);
-  function syncCompactMode(){const p=document.getElementById('workoutPanel');document.body.classList.toggle('workout-active',!!p&&!p.classList.contains('hidden'));}
-  const panel=document.getElementById('workoutPanel');if(panel)new MutationObserver(syncCompactMode).observe(panel,{attributes:true,attributeFilter:['class']});
-  document.getElementById('startWorkoutBtn')?.addEventListener('click',()=>setTimeout(syncCompactMode,0));document.getElementById('finishWorkoutBtn')?.addEventListener('click',()=>setTimeout(syncCompactMode,0));syncCompactMode();
+
+  const compactFinishBtn=document.createElement('button');
+  compactFinishBtn.id='compactFinishBtn';
+  compactFinishBtn.type='button';
+  compactFinishBtn.textContent='終了';
+  compactFinishBtn.hidden=true;
+  document.body.appendChild(compactFinishBtn);
+  compactFinishBtn.addEventListener('click',()=>document.getElementById('finishWorkoutBtn')?.click());
+
+  function syncCompactMode(){
+    const p=document.getElementById('workoutPanel');
+    const active=!!p&&!p.classList.contains('hidden');
+    document.body.classList.toggle('workout-active',active);
+    compactFinishBtn.hidden=!active;
+  }
+  const panel=document.getElementById('workoutPanel');
+  if(panel)new MutationObserver(syncCompactMode).observe(panel,{attributes:true,attributeFilter:['class']});
+  document.getElementById('startWorkoutBtn')?.addEventListener('click',()=>setTimeout(syncCompactMode,0));
+  document.getElementById('finishWorkoutBtn')?.addEventListener('click',()=>setTimeout(syncCompactMode,0));
+  syncCompactMode();
 })();

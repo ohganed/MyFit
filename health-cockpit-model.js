@@ -18,18 +18,40 @@
   });
 
   const NUTRITION_FIELDS = Object.freeze({
-    energyKcal: { unit:'kcal', group:'energy' },
-    proteinG: { unit:'g', group:'macro' },
-    fatG: { unit:'g', group:'macro' },
-    carbsG: { unit:'g', group:'macro' },
-    fiberG: { unit:'g', group:'macro' },
-    sugarG: { unit:'g', group:'macro' },
-    sodiumMg: { unit:'mg', group:'mineral' },
-    potassiumMg: { unit:'mg', group:'mineral' },
-    calciumMg: { unit:'mg', group:'mineral' },
-    ironMg: { unit:'mg', group:'mineral' },
-    magnesiumMg: { unit:'mg', group:'mineral' },
-    vitaminDMcg: { unit:'mcg', group:'vitamin' }
+    energyKcal: { unit:'kcal', group:'energy', label:'Energy' },
+    proteinG: { unit:'g', group:'macro', label:'Protein' },
+    fatG: { unit:'g', group:'macro', label:'Fat' },
+    carbsG: { unit:'g', group:'macro', label:'Carbohydrate' },
+    fiberG: { unit:'g', group:'macro', label:'Fiber' },
+    sugarG: { unit:'g', group:'macro', label:'Sugar' },
+
+    vitaminAMcgRAE: { unit:'mcg RAE', group:'vitamin', label:'Vitamin A' },
+    vitaminB1Mg: { unit:'mg', group:'vitamin', label:'Vitamin B1 (Thiamin)' },
+    vitaminB2Mg: { unit:'mg', group:'vitamin', label:'Vitamin B2 (Riboflavin)' },
+    vitaminB3MgNE: { unit:'mg NE', group:'vitamin', label:'Vitamin B3 (Niacin)' },
+    vitaminB5Mg: { unit:'mg', group:'vitamin', label:'Vitamin B5 (Pantothenic acid)' },
+    vitaminB6Mg: { unit:'mg', group:'vitamin', label:'Vitamin B6' },
+    vitaminB7Mcg: { unit:'mcg', group:'vitamin', label:'Vitamin B7 (Biotin)' },
+    vitaminB9McgDFE: { unit:'mcg DFE', group:'vitamin', label:'Vitamin B9 (Folate)' },
+    vitaminB12Mcg: { unit:'mcg', group:'vitamin', label:'Vitamin B12' },
+    vitaminCMg: { unit:'mg', group:'vitamin', label:'Vitamin C' },
+    vitaminDMcg: { unit:'mcg', group:'vitamin', label:'Vitamin D' },
+    vitaminEMgAlphaTE: { unit:'mg alpha-TE', group:'vitamin', label:'Vitamin E' },
+    vitaminKMcg: { unit:'mcg', group:'vitamin', label:'Vitamin K' },
+
+    sodiumMg: { unit:'mg', group:'mineral', label:'Sodium' },
+    potassiumMg: { unit:'mg', group:'mineral', label:'Potassium' },
+    calciumMg: { unit:'mg', group:'mineral', label:'Calcium' },
+    magnesiumMg: { unit:'mg', group:'mineral', label:'Magnesium' },
+    phosphorusMg: { unit:'mg', group:'mineral', label:'Phosphorus' },
+    ironMg: { unit:'mg', group:'mineral', label:'Iron' },
+    zincMg: { unit:'mg', group:'mineral', label:'Zinc' },
+    copperMg: { unit:'mg', group:'mineral', label:'Copper' },
+    manganeseMg: { unit:'mg', group:'mineral', label:'Manganese' },
+    iodineMcg: { unit:'mcg', group:'mineral', label:'Iodine' },
+    seleniumMcg: { unit:'mcg', group:'mineral', label:'Selenium' },
+    chromiumMcg: { unit:'mcg', group:'mineral', label:'Chromium' },
+    molybdenumMcg: { unit:'mcg', group:'mineral', label:'Molybdenum' }
   });
 
   const NUTRITION_SOURCES = Object.freeze(['manual','database','barcode','photo-estimate','import','healthkit']);
@@ -140,16 +162,6 @@
     queryMetrics: query => window.MyFitHealth.querySamples(query),
     latestMetric: metric => window.MyFitHealth.latest(metric)
   };
-
-  /*
-    Data model rule:
-    - Numeric observations (Weight, Blood Pressure, Steps, HR, etc.) live in MyFitHealth.
-    - Time-based life events (Meal, Sleep, Movement session, Recovery check) live here.
-    - Meal nutrition is optional and stored inside meal.payload.nutrition.
-    - Nutrition provenance must be preserved (manual/database/barcode/photo-estimate/import/healthkit).
-    - UI modules must talk to MyFitCockpit / MyFitHealth, never directly to localStorage.
-    - A future Swift/HealthKit implementation can replace either provider independently.
-  */
 
   window.MyFitCockpit = Object.freeze(api);
 })();

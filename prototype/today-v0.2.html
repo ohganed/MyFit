@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>MyFit Today Prototype v0.2</title>
+<style>
+:root{--bg:#f4f6f8;--card:#fff;--text:#111827;--muted:#6b7280;--line:#e5e7eb;--soft:#eef2f7;--event:#7c3aed}
+*{box-sizing:border-box}html,body{margin:0;height:100%;overflow:hidden;background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,"Hiragino Sans","Yu Gothic",sans-serif}button{font:inherit}
+.app{height:100dvh;max-width:480px;margin:0 auto;padding:calc(10px + env(safe-area-inset-top)) 12px calc(76px + env(safe-area-inset-bottom));display:flex;flex-direction:column;gap:8px}
+.header{display:flex;align-items:flex-start;justify-content:space-between;flex:0 0 auto}.brand small{display:block;color:var(--muted);font-weight:800;letter-spacing:.12em;font-size:10px}.brand h1{font-size:25px;line-height:1;margin:3px 0}.tagline{font-size:12px;color:var(--muted)}
+.ghost{border:0;background:#fff;border-radius:999px;padding:8px 11px;font-weight:800;box-shadow:0 2px 10px rgba(17,24,39,.06)}
+.tabs{display:grid;grid-template-columns:1fr 1fr;background:#e9edf2;border-radius:14px;padding:3px;flex:0 0 auto}.tab{border:0;background:transparent;border-radius:11px;padding:8px;font-weight:900;color:#6b7280}.tab.active{background:#fff;color:#111827;box-shadow:0 1px 5px rgba(17,24,39,.08)}
+.panel{display:none;min-height:0;flex:1}.panel.active{display:flex;flex-direction:column;gap:8px}
+.card{background:var(--card);border-radius:18px;padding:12px;box-shadow:0 2px 12px rgba(17,24,39,.05)}
+.summary{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;flex:0 0 auto}.metric{border:1px solid var(--line);border-radius:13px;padding:9px 7px;min-width:0}.metric small{display:block;font-size:10px;color:var(--muted);font-weight:800;white-space:nowrap}.metric strong{display:block;font-size:15px;margin-top:3px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.band{height:4px;background:#edf0f4;border-radius:99px;margin-top:7px;position:relative}.band:after{content:"";position:absolute;left:25%;right:20%;inset-block:0;background:#cbd5e1;border-radius:99px}.dot{position:absolute;width:7px;height:7px;border-radius:50%;background:#111827;top:50%;transform:translateY(-50%)}
+.notice{display:flex;align-items:center;gap:9px;border:1px solid #ddd6fe;background:#faf5ff;flex:0 0 auto}.diamond{width:13px;height:13px;background:var(--event);transform:rotate(45deg);border-radius:3px;box-shadow:0 0 0 4px #ede9fe;flex:0 0 auto}.notice-text{min-width:0;flex:1}.notice-text strong{display:block;font-size:13px}.notice-text span{display:block;font-size:11px;color:var(--muted);margin-top:2px}.chev{font-size:20px;color:#8b5cf6}
+.timeline-card{display:flex;flex-direction:column;min-height:0;flex:1}.section-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:6px}.section-head h3{margin:0;font-size:14px}.section-head span{font-size:10px;color:var(--muted)}
+.timeline-visual{position:relative;flex:1;min-height:220px;border-radius:15px;background:linear-gradient(#fafafa,#fff);border:1px solid var(--line);overflow:hidden;padding:24px 8px 10px}.axis{position:absolute;left:14px;right:14px;top:48%;height:2px;background:#d9dee5}.axis-labels{position:absolute;left:12px;right:12px;top:calc(48% + 7px);display:flex;justify-content:space-between;color:#9ca3af;font-size:9px}.event-dot{position:absolute;width:15px;height:15px;border-radius:50%;border:3px solid #fff;box-shadow:0 1px 4px rgba(0,0,0,.12);transform:translate(-50%,-50%)}.event-dot.meal{background:#d97706}.event-dot.sleep{background:#2563eb}.event-dot.body{background:#dc2626}.event-dot.energy{background:#7c3aed}.event-dot.move{background:#16a34a}.event-dot.dev{border-radius:4px;transform:translate(-50%,-50%) rotate(45deg);background:var(--event);box-shadow:0 0 0 4px #ede9fe}.event-label{position:absolute;transform:translateX(-50%);font-size:10px;font-weight:800;white-space:nowrap}.event-label.sub{font-weight:700;color:var(--muted);font-size:9px}
+.legend{display:flex;gap:9px;justify-content:center;flex-wrap:wrap;margin-top:6px;color:var(--muted);font-size:9px}.legend i{display:inline-block;width:7px;height:7px;border-radius:50%;margin-right:3px}
+.flow-card{flex:1;display:flex;flex-direction:column;justify-content:center;gap:16px;padding:18px}.flow-row{display:grid;grid-template-columns:62px 1fr;gap:9px;align-items:center}.flow-label{font-size:12px;font-weight:900}.flow-track{height:28px;background:#eef1f5;border-radius:999px;position:relative;overflow:hidden}.usual{position:absolute;left:20%;right:20%;top:7px;height:14px;background:#d4d9e0;border-radius:99px}.flow-line{position:absolute;left:8%;top:13px;width:76%;height:2px;background:#111827;transform-origin:left}.flow-line.late{transform:rotate(5deg)}.flow-line.up{transform:rotate(-5deg)}.mark{position:absolute;right:9%;top:8px;width:10px;height:10px;background:var(--event);transform:rotate(45deg);border-radius:2px}.flow-note{font-size:12px;line-height:1.45;color:var(--muted);text-align:center}
+.fab{position:fixed;right:max(18px,calc((100vw - 480px)/2 + 18px));bottom:calc(16px + env(safe-area-inset-bottom));width:54px;height:54px;border-radius:50%;border:0;background:#111827;color:#fff;font-size:26px;box-shadow:0 10px 28px rgba(17,24,39,.25);z-index:40}
+.sheet-wrap{position:fixed;inset:0;background:rgba(15,23,42,.28);display:none;align-items:flex-end;z-index:100}.sheet-wrap.show{display:flex}.sheet{width:100%;max-width:480px;margin:0 auto;background:#fff;border-radius:24px 24px 0 0;padding:10px 16px calc(18px + env(safe-area-inset-bottom))}.handle{width:42px;height:5px;border-radius:99px;background:#d1d5db;margin:2px auto 14px}.sheet h3{margin:0 0 12px}.quick-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:9px}.quick{border:0;background:#f3f4f6;border-radius:15px;padding:12px 6px;font-weight:800;min-height:64px}.quick span{display:block;font-size:21px;margin-bottom:3px}.sheet-note{font-size:11px;color:var(--muted);margin-top:10px}.detail-card{font-size:13px;line-height:1.5;color:#374151;background:#f8fafc;border-radius:14px;padding:12px}
+.flash{position:fixed;inset:0;pointer-events:none;z-index:200;display:none;align-items:center;justify-content:center;background:radial-gradient(circle at center,#ede9fe 0,#ddd6fe 36%,rgba(124,58,237,.92) 100%);color:#fff;text-align:center;padding:24px}.flash.show{display:flex;animation:flashout 2.4s forwards}.flash strong{display:block;font-size:44px;margin:6px 0}.flash small{letter-spacing:.18em;font-weight:900}.flash p{margin:0}
+@keyframes flashout{0%,68%{opacity:1}100%{opacity:0;visibility:hidden}}
+@media(max-height:720px){.summary{grid-template-columns:repeat(2,1fr)}.metric{padding:7px}.timeline-visual{min-height:170px}.app{gap:6px}.card{padding:10px}}
+</style>
+</head>
+<body>
+<div class="app">
+<header class="header"><div class="brand"><small>MYFIT</small><h1>Today</h1><div class="tagline">Life that fits me.</div></div><button class="ghost" id="demoBtn">Demo ◆</button></header>
+<div class="tabs"><button class="tab active" data-tab="today">Today</button><button class="tab" data-tab="flow">Flow</button></div>
+
+<section class="panel active" id="todayPanel">
+  <div class="summary">
+    <div class="metric"><small>Sleep</small><strong>6h 34m</strong><div class="band"><span class="dot" style="left:58%"></span></div></div>
+    <div class="metric"><small>Energy</small><strong>3 / 5</strong><div class="band"><span class="dot" style="left:49%"></span></div></div>
+    <div class="metric"><small>Move</small><strong>Normal</strong><div class="band"><span class="dot" style="left:57%"></span></div></div>
+    <div class="metric"><small>Meals</small><strong>3</strong><div class="band"><span class="dot" style="left:62%"></span></div></div>
+  </div>
+
+  <button class="card notice" id="noticeBtn"><span class="diamond"></span><span class="notice-text"><strong>Something is different</strong><span>Squat moved outside your recent usual range</span></span><span class="chev">›</span></button>
+
+  <section class="card timeline-card">
+    <div class="section-head"><h3>Today at a glance</h3><span>06:00 → 22:00</span></div>
+    <div class="timeline-visual">
+      <div class="axis"></div>
+      <div class="axis-labels"><span>06</span><span>10</span><span>14</span><span>18</span><span>22</span></div>
+      <span class="event-dot sleep" style="left:8%;top:48%"></span><span class="event-label" style="left:8%;top:18%">Wake</span><span class="event-label sub" style="left:8%;top:30%">06:42</span>
+      <span class="event-dot meal" style="left:13%;top:48%"></span><span class="event-label" style="left:15%;top:67%">Breakfast</span><span class="event-label sub" style="left:15%;top:78%">07:18</span>
+      <span class="event-dot body" style="left:16%;top:48%"></span><span class="event-label" style="left:24%;top:18%">82.1kg</span><span class="event-label sub" style="left:24%;top:30%">07:35</span>
+      <span class="event-dot meal" style="left:41%;top:48%"></span><span class="event-label" style="left:41%;top:67%">Lunch</span><span class="event-label sub" style="left:41%;top:78%">12:31</span>
+      <span class="event-dot dev" style="left:76%;top:48%"></span><span class="event-label" style="left:73%;top:18%">Squat 10</span><span class="event-label sub" style="left:73%;top:30%">18:12 ◆</span>
+      <span class="event-dot meal" style="left:84%;top:48%"></span><span class="event-label" style="left:84%;top:67%">Dinner</span><span class="event-label sub" style="left:84%;top:78%">19:26</span>
+      <span class="event-dot energy" style="left:94%;top:48%"></span><span class="event-label" style="left:92%;top:18%">Energy</span><span class="event-label sub" style="left:92%;top:30%">21:10</span>
+    </div>
+    <div class="legend"><span><i style="background:#2563eb"></i>Sleep</span><span><i style="background:#d97706"></i>Meal</span><span><i style="background:#16a34a"></i>Move</span><span>◆ different</span></div>
+  </section>
+</section>
+
+<section class="panel" id="flowPanel">
+  <section class="card flow-card">
+    <div class="section-head"><h3>Flow</h3><span>Past 3 weeks</span></div>
+    <div class="flow-row"><div class="flow-label">Sleep</div><div class="flow-track"><span class="usual"></span><span class="flow-line late"></span><span class="mark"></span></div></div>
+    <div class="flow-row"><div class="flow-label">Meals</div><div class="flow-track"><span class="usual" style="left:24%;right:14%"></span><span class="flow-line late" style="width:70%"></span></div></div>
+    <div class="flow-row"><div class="flow-label">Workout</div><div class="flow-track"><span class="usual" style="left:12%;right:28%"></span><span class="flow-line" style="width:78%"></span></div></div>
+    <div class="flow-row"><div class="flow-label">Energy</div><div class="flow-track"><span class="usual" style="left:20%;right:24%"></span><span class="flow-line up" style="width:72%"></span></div></div>
+    <div class="flow-note">See the shape first. Tap only when you want the words behind it.</div>
+  </section>
+</section>
+</div>
+
+<button class="fab" id="addBtn">＋</button>
+<div class="sheet-wrap" id="sheetWrap"><div class="sheet"><div class="handle"></div><h3>Add to Today</h3><div class="quick-grid"><button class="quick"><span>⚖️</span>Weight</button><button class="quick"><span>🩸</span>BP</button><button class="quick"><span>🍽️</span>Meal</button><button class="quick"><span>😴</span>Sleep</button><button class="quick"><span>⚡</span>Energy</button><button class="quick"><span>🏃</span>Movement</button></div><div class="sheet-note">Tap first. Type only when needed.</div></div></div>
+<div class="sheet-wrap" id="noticeSheet"><div class="sheet"><div class="handle"></div><h3>◆ Different today</h3><div class="detail-card">Recent Squat values cluster around 5–7 reps. Today was 10 reps. MyFit is showing the difference only — it is not deciding whether it was good or bad.</div></div></div>
+<div class="flash" id="flash"><div><small>DIFFERENT TODAY</small><strong>10 reps</strong><p>Recent usual: 5–7</p></div></div>
+<script>
+const tabs=document.querySelectorAll('.tab');tabs.forEach(t=>t.onclick=()=>{tabs.forEach(x=>x.classList.remove('active'));t.classList.add('active');document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active'));document.getElementById(t.dataset.tab+'Panel').classList.add('active')});
+const sheet=document.getElementById('sheetWrap');document.getElementById('addBtn').onclick=()=>sheet.classList.add('show');sheet.onclick=e=>{if(e.target===sheet)sheet.classList.remove('show')};
+const ns=document.getElementById('noticeSheet');document.getElementById('noticeBtn').onclick=()=>ns.classList.add('show');ns.onclick=e=>{if(e.target===ns)ns.classList.remove('show')};
+const flash=document.getElementById('flash');document.getElementById('demoBtn').onclick=()=>{flash.classList.remove('show');void flash.offsetWidth;flash.classList.add('show');setTimeout(()=>flash.classList.remove('show'),2500)};
+</script>
+</body>
+</html>

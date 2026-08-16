@@ -9,7 +9,7 @@
       defaultRest:'Default rest time', registerExercise:'Add Exercise', settings:'Settings', dataManagement:'Data management',
       dataSavedLocal:'Your records are stored in this browser on this device.', importBackup:'Import backup', deleteAll:'Delete all data',
       addHome:'Add to Home Screen', addHomeHelp:'In Safari, tap Share and choose “Add to Home Screen”.', today:'Today', navHistory:'History', navExercises:'Exercises', navSettings:'Settings',
-      workoutComplete:'Workout Complete', niceWork:'Nice work', close:'Close', kg:'kg', times:'reps', right:'Right', left:'Left', seconds:'sec', setsSuffix:'sets'
+      workoutComplete:'Workout Complete', niceWork:'Session saved', close:'Close', kg:'kg', times:'reps', right:'Right', left:'Left', seconds:'sec', setsSuffix:'sets'
     },
     ja: {
       elapsed:'経過時間', todayWorkout:'今日のトレーニング', start:'開始する', exercise:'種目', add:'＋追加', noPrevious:'前回記録はありません',
@@ -18,7 +18,7 @@
       exercises:'種目管理', exerciseName:'種目名', recordType:'記録形式', standard:'重量＋回数', bodyweight:'自重（回数のみ）', sided:'左右別', defaultRest:'標準休憩時間',
       registerExercise:'種目を登録', settings:'設定', dataManagement:'データ管理', dataSavedLocal:'記録はこの端末のブラウザ内に保存されます。', importBackup:'バックアップを読み込む',
       deleteAll:'すべてのデータを削除', addHome:'ホーム画面への追加', addHomeHelp:'Safariの共有ボタンから「ホーム画面に追加」を選んでください。',
-      today:'今日', navHistory:'履歴', navExercises:'種目', navSettings:'設定', workoutComplete:'WORKOUT COMPLETE', niceWork:'お疲れさまでした', close:'閉じる', kg:'kg', times:'回', right:'右', left:'左', seconds:'秒', setsSuffix:'セット'
+      today:'今日', navHistory:'履歴', navExercises:'種目', navSettings:'設定', workoutComplete:'WORKOUT COMPLETE', niceWork:'記録しました', close:'閉じる', kg:'kg', times:'回', right:'右', left:'左', seconds:'秒', setsSuffix:'セット'
     }
   };
 

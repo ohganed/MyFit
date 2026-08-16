@@ -1,18 +1,17 @@
 (() => {
   const COPY={
-    en:{ready:'Are you ready?',hint:'Get into position. Start only when you are ready.',ok:'I’m ready',go:'GO!',work:'Set',target:'Complete your Set at a comfortable pace.',done:'Done!',hard:'That was hard',rest:'Nice work. Time to Rest.',next:'Next Set',skip:'Not ready yet'},
-    ja:{ready:'準備はいいですか？',hint:'姿勢と器具を確認して、準備ができてから始めましょう。',ok:'準備OK',go:'GO!',work:'Set',target:'無理のないペースで Set を行いましょう。',done:'できた！',hard:'きつかった',rest:'お疲れさまでした。Rest に入りましょう。',next:'Next Set',skip:'まだ準備中'},
-    ru:{ready:'Готовы?',hint:'Проверьте положение и оборудование. Начинайте, когда будете готовы.',ok:'Я готов',go:'GO!',work:'Set',target:'Выполните Set в комфортном темпе.',done:'Готово!',hard:'Было тяжело',rest:'Отлично. Переходим к Rest.',next:'Next Set',skip:'Ещё не готов'},
-    fr:{ready:'Prêt ?',hint:'Vérifiez votre position et le matériel. Commencez quand vous êtes prêt.',ok:'Je suis prêt',go:'GO!',work:'Set',target:'Effectuez votre Set à votre rythme.',done:'Terminé !',hard:'C’était difficile',rest:'Bravo. Passez au Rest.',next:'Next Set',skip:'Pas encore prêt'},
-    es:{ready:'¿Listo?',hint:'Comprueba tu posición y el equipo. Empieza cuando estés preparado.',ok:'Estoy listo',go:'GO!',work:'Set',target:'Completa tu Set a un ritmo cómodo.',done:'¡Hecho!',hard:'Fue difícil',rest:'Buen trabajo. Ahora toca Rest.',next:'Next Set',skip:'Aún no'},
-    de:{ready:'Bereit?',hint:'Prüfe Position und Gerät. Starte erst, wenn du bereit bist.',ok:'Ich bin bereit',go:'GO!',work:'Set',target:'Führe deinen Set in einem angenehmen Tempo aus.',done:'Geschafft!',hard:'Das war schwer',rest:'Gut gemacht. Jetzt kommt Rest.',next:'Next Set',skip:'Noch nicht'},
-    pt:{ready:'Pronto?',hint:'Confira sua posição e o equipamento. Comece quando estiver pronto.',ok:'Estou pronto',go:'GO!',work:'Set',target:'Complete seu Set em um ritmo confortável.',done:'Consegui!',hard:'Foi difícil',rest:'Muito bem. Agora é Rest.',next:'Next Set',skip:'Ainda não'},
-    zh:{ready:'准备好了吗？',hint:'确认姿势和器械，准备好后再开始。',ok:'准备好了',go:'GO!',work:'Set',target:'用舒适的节奏完成这个 Set。',done:'完成了！',hard:'有点吃力',rest:'做得好。现在进入 Rest。',next:'Next Set',skip:'还没准备好'},
-    ko:{ready:'준비됐나요?',hint:'자세와 기구를 확인하고 준비되었을 때 시작하세요.',ok:'준비 완료',go:'GO!',work:'Set',target:'무리하지 않는 속도로 Set을 진행하세요.',done:'완료!',hard:'힘들었어요',rest:'잘했어요. 이제 Rest입니다.',next:'Next Set',skip:'아직 준비 중'}
+    en:{ready:'Are you ready?',hint:'Get into position. Start only when you are ready.',ok:'I’m ready',go:'GO!',work:'Set',target:'Complete your Set at a comfortable pace.',done:'Done',hard:'That was hard',rest:'Rest',next:'Next Set',skip:'Not ready yet'},
+    ja:{ready:'準備はいいですか？',hint:'姿勢と器具を確認して、準備ができてから始めましょう。',ok:'準備OK',go:'GO!',work:'Set',target:'無理のないペースで Set を行いましょう。',done:'完了',hard:'きつかった',rest:'Rest',next:'Next Set',skip:'まだ準備中'},
+    ru:{ready:'Готовы?',hint:'Проверьте положение и оборудование. Начинайте, когда будете готовы.',ok:'Я готов',go:'GO!',work:'Set',target:'Выполните Set в комфортном темпе.',done:'Готово',hard:'Было тяжело',rest:'Rest',next:'Next Set',skip:'Ещё не готов'},
+    fr:{ready:'Prêt ?',hint:'Vérifiez votre position et le matériel. Commencez quand vous êtes prêt.',ok:'Je suis prêt',go:'GO!',work:'Set',target:'Effectuez votre Set à votre rythme.',done:'Terminé',hard:'C’était difficile',rest:'Rest',next:'Next Set',skip:'Pas encore prêt'},
+    es:{ready:'¿Listo?',hint:'Comprueba tu posición y el equipo. Empieza cuando estés preparado.',ok:'Estoy listo',go:'GO!',work:'Set',target:'Completa tu Set a un ritmo cómodo.',done:'Hecho',hard:'Fue difícil',rest:'Rest',next:'Next Set',skip:'Aún no'},
+    de:{ready:'Bereit?',hint:'Prüfe Position und Gerät. Starte erst, wenn du bereit bist.',ok:'Ich bin bereit',go:'GO!',work:'Set',target:'Führe deinen Set in einem angenehmen Tempo aus.',done:'Fertig',hard:'Das war schwer',rest:'Rest',next:'Next Set',skip:'Noch nicht'},
+    pt:{ready:'Pronto?',hint:'Confira sua posição e o equipamento. Comece quando estiver pronto.',ok:'Estou pronto',go:'GO!',work:'Set',target:'Complete seu Set em um ritmo confortável.',done:'Concluído',hard:'Foi difícil',rest:'Rest',next:'Next Set',skip:'Ainda não'},
+    zh:{ready:'准备好了吗？',hint:'确认姿势和器械，准备好后再开始。',ok:'准备好了',go:'GO!',work:'Set',target:'用舒适的节奏完成这个 Set。',done:'完成',hard:'有点吃力',rest:'Rest',next:'Next Set',skip:'还没准备好'},
+    ko:{ready:'준비됐나요?',hint:'자세와 기구를 확인하고 준비되었을 때 시작하세요.',ok:'준비 완료',go:'GO!',work:'Set',target:'무리하지 않는 속도로 Set을 진행하세요.',done:'완료',hard:'힘들었어요',rest:'Rest',next:'Next Set',skip:'아직 준비 중'}
   };
   const lang=()=>{const x=localStorage.getItem('myfit-language')||'en';return COPY[x]||COPY.en};
 
-  // Compatibility: older saved Push up entries may still be classified as weighted exercises.
   function normalizeBodyweightExercises(){
     try{
       if(typeof data==='undefined'||!Array.isArray(data.exercises))return;

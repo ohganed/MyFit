@@ -70,18 +70,22 @@
   const sweatRank = { none: 0, low: 1, normal: 2 };
 
   function normalizeExercise(exercise) {
-    if (!exercise.positions) exercise.positions = [...fallbackMeta.positions];
-    if (!exercise.locations) exercise.locations = [...fallbackMeta.locations];
-    if (!exercise.minMinutes) exercise.minMinutes = fallbackMeta.minMinutes;
-    if (!exercise.intensity) exercise.intensity = fallbackMeta.intensity;
-    if (!exercise.sweat) exercise.sweat = fallbackMeta.sweat;
-    if (!exercise.targets) exercise.targets = [...fallbackMeta.targets];
-    return exercise;
+    let changed = false;
+    if (!exercise.positions) { exercise.positions = [...fallbackMeta.positions]; changed = true; }
+    if (!exercise.locations) { exercise.locations = [...fallbackMeta.locations]; changed = true; }
+    if (!exercise.minMinutes) { exercise.minMinutes = fallbackMeta.minMinutes; changed = true; }
+    if (!exercise.intensity) { exercise.intensity = fallbackMeta.intensity; changed = true; }
+    if (!exercise.sweat) { exercise.sweat = fallbackMeta.sweat; changed = true; }
+    if (!exercise.targets) { exercise.targets = [...fallbackMeta.targets]; changed = true; }
+    return { exercise, changed };
   }
 
   function ensureSituationExercises() {
-    data.exercises.forEach(normalizeExercise);
     let changed = false;
+    data.exercises.forEach(exercise => {
+      const normalized = normalizeExercise(exercise);
+      if (normalized.changed) changed = true;
+    });
     for (const seed of seedExercises) {
       if (data.exercises.some(exercise => exercise.name === seed.name)) continue;
       data.exercises.push({ id: crypto.randomUUID(), ...seed });
@@ -92,7 +96,7 @@
   }
 
   function matchesSituation(exercise, situation) {
-    const ex = normalizeExercise(exercise);
+    const ex = normalizeExercise(exercise).exercise;
     if (!ex.locations.includes(situation.location)) return false;
     if (situation.position !== "any" && !ex.positions.includes(situation.position)) return false;
     if (Number(ex.minMinutes) > situation.minutes) return false;

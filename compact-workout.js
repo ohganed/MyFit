@@ -54,4 +54,8 @@
   document.getElementById('startWorkoutBtn')?.addEventListener('click',()=>setTimeout(syncCompactMode,0));
   document.getElementById('finishWorkoutBtn')?.addEventListener('click',()=>setTimeout(syncCompactMode,0));
   syncCompactMode();
+
+  const situationRouterScript = document.createElement('script');
+  situationRouterScript.src = './situation-router.js';
+  document.body.appendChild(situationRouterScript);
 })();

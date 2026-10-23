@@ -1,0 +1,13 @@
+html {
+  background: #0b0f15;
+}
+
+body {
+  min-height: 100vh;
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  margin: 0;
+  appearance: none;
+}

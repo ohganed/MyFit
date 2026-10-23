@@ -1,0 +1,45 @@
+<svg
+  xmlns="http://www.w3.org/2000/svg"
+  viewBox="0 0 512 512"
+>
+  <rect
+    width="512"
+    height="512"
+    rx="112"
+    fill="#0f172a"
+  />
+
+  <circle
+    cx="256"
+    cy="256"
+    r="154"
+    fill="#f8fafc"
+  />
+
+  <path
+    d="
+      M142 229
+      H184
+      V190
+      H220
+      V229
+      H292
+      V190
+      H328
+      V229
+      H370
+      V283
+      H328
+      V322
+      H292
+      V283
+      H220
+      V322
+      H184
+      V283
+      H142
+      Z
+    "
+    fill="#0f172a"
+  />
+</svg>
